@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.idea/
+.vscode/
+
+# Datasets (ship your own images, never commit them)
+data/imgs/*
+data/masks/*
+!data/imgs/.gitkeep
+!data/masks/.gitkeep
+datasets/
+
+# Model weights and training outputs
+checkpoints/
+*.pth
+logs/
+work_dirs/
+wandb/
+
+# OS
+.DS_Store
+Thumbs.db
