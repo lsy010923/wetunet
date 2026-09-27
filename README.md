@@ -3,6 +3,10 @@
 PyTorch implementation of **WetBirdNet**, a U-Net style segmentation network for
 binary **wetland waterbird segmentation** from high-resolution imagery.
 
+> **Dataset / 数据集**: The dataset is not publicly distributed. To request
+> access, please contact **1294239487@qq.com**.
+> （数据集不随代码公开，如需获取请发送邮件联系。）
+
 The codebase is a trimmed, self-contained release: only the model, the training
 and evaluation pipelines, and an inference script are included. All experiment
 scaffolding, ablations, logs and datasets from the development repository have
@@ -15,19 +19,19 @@ custom components:
 
 | Component | Role |
 | --- | --- |
-| **GSCAM** (Global Spatial-Channel Attention Module) | Replaces every `SqueezeExcitation` block inside the MobileNetV3-Large backbone with a dual-branch channel + spatial attention gate. |
+| **GSCAM** (Global Spatial-Channel Attention Module) | Replaces every SqueezeExcitation block inside the MobileNetV3-Large backbone with a dual-branch channel + spatial attention gate. |
 | **MS-ADCAM** (Multi-Scale Attention Dual-Channel Attention Module) | Placed at the bottleneck to re-weight multi-scale context before decoding. |
 | **HFRM** (Hybrid Feature Refinement Module) | Each decoder stage: adaptive skip fusion + large-kernel refinement + optional channel-spatial gate. |
 
-Encoder features are tapped at indices `[1, 3, 6, 12, 16]` with channel widths
-`[16, 24, 40, 112, 960]`. The decoder upsamples four times, projects every skip
+Encoder features are tapped at indices 1, 3, 6, 12 and 16, with channel widths
+16, 24, 40, 112 and 960. The decoder upsamples four times, projects every skip
 connection to 1x1 convolutions, and finally upsamples back to the input
 resolution with a 1x1 classification head.
 
-Training uses a weighted **0.3 BCE + 0.7 Dice** loss with optional `pos_weight`,
-automatic mixed precision, gradient clipping, and `ReduceLROnPlateau` driven by
-a **fixed-threshold** validation score (the optional threshold scan is reported
-for inspection only, never used to step the scheduler).
+Training uses a weighted **0.3 BCE + 0.7 Dice** loss with optional pos_weight,
+automatic mixed precision, gradient clipping, and a ReduceLROnPlateau scheduler
+driven by a **fixed-threshold** validation score (the optional threshold scan is
+reported for inspection only, never used to step the scheduler).
 
 ## Repository structure
 
@@ -77,8 +81,9 @@ data/
     └── test/
 ```
 
-The dataset used in the paper is not redistributed with this repository. Any
-binary segmentation dataset with the layout above works out of the box.
+The dataset used in the paper is not redistributed with this repository — see
+the dataset note at the top of this README to request access. Any binary
+segmentation dataset with the layout above works out of the box.
 
 ## Training
 
